@@ -87,7 +87,9 @@ class Youknow extends Component {
               activeOpacity={0.6}
               onPress={() => {
                 ToastAndroid.show('按钮被点击了', ToastAndroid.SHORT);
-                let POST_URL='http://155.94.202.101:1009/api/v1/user/signin?captcha=HHTNmh24ad2St8bclprk.793914';//TODO 1.怎么把函数移到外部，但是加载页面也不会发生调用  2.动态加入验证码。
+                let POST_URL='http://155.94.202.101:1009/api/v1/user/signin?captcha='+this.state.respCode+'.'+this.state.captcha;//TODO 1.怎么把函数移到外部，但是加载页面也不会发生调用  2.动态加入验证码。
+                console.log(POST_URL);
+
                 fetch(POST_URL, {
                   method: 'POST',
                   headers: {
@@ -123,7 +125,8 @@ class Youknow extends Component {
                     .then((response) => response.json())
                     .then((responseJson) => {
                       this.setState({
-                        IMG_URI: "http://155.94.202.101:1009/api/v1/captcha/file/dynamic/"+responseJson.data+".png"
+                        IMG_URI: "http://155.94.202.101:1009/api/v1/captcha/file/dynamic/"+responseJson.data+".png",
+                        respCode: responseJson.data
                       });
                       console.log(responseJson.data);
                       console.log(this.state.IMG_URI);
