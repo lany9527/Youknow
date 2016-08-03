@@ -26,7 +26,8 @@ class Youknow extends Component {
       username: "",
       password: "",
       IMG_URI: "",
-      captcha: ""
+      IMG_NAME: "",
+      captcha: "",
     }
   }
 
@@ -86,10 +87,9 @@ class Youknow extends Component {
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => {
-                ToastAndroid.show('按钮被点击了', ToastAndroid.SHORT);
-                let POST_URL='http://155.94.202.101:1009/api/v1/user/signin?captcha='+this.state.respCode+'.'+this.state.captcha;//TODO 1.怎么把函数移到外部，但是加载页面也不会发生调用  2.动态加入验证码。
+                ToastAndroid.show('登陆按钮按钮被点击了', ToastAndroid.SHORT);
+                let POST_URL='http://155.94.202.101:1009/api/v1/user/signin?captcha='+this.state.IMG_NAME+"."+this.state.captcha;//TODO 1.怎么把函数移到外部，但是加载页面也不会发生调用  2.动态加入验证码。
                 console.log(POST_URL);
-
                 fetch(POST_URL, {
                   method: 'POST',
                   headers: {
@@ -105,7 +105,6 @@ class Youknow extends Component {
                   .then((responseData) => {
                    console.log("ok");
                     console.log(responseData);
-                    console.log("pppp", captcha);
                   })
                   .catch((error) => {
                     console.log("not ok");
@@ -126,7 +125,7 @@ class Youknow extends Component {
                     .then((responseJson) => {
                       this.setState({
                         IMG_URI: "http://155.94.202.101:1009/api/v1/captcha/file/dynamic/"+responseJson.data+".png",
-                        respCode: responseJson.data
+                        IMG_NAME: responseJson.data,
                       });
                       console.log(responseJson.data);
                       console.log(this.state.IMG_URI);
